@@ -21,6 +21,13 @@ install-node-server-dependencies:
 	@npm ci
 	@echo "Done installing node server dependencies"
 
+# Creates folders needed for the node server.
+create-node-server-folders:
+	@echo "Creating server folders..."
+	@mkdir -p \
+		dist/
+	@echo "Done creating server folders"
+
 # Opens an interactive psql shell.
 psql:
 	@docker exec \
