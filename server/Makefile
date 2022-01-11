@@ -14,3 +14,11 @@ stop-services:
 	@echo "Stopping services..."
 	@docker-compose down
 	@echo "Done stopping services"
+
+# Opens an interactive psql shell.
+psql:
+	@docker exec \
+		-it ${POSTGRES_DOCKER_CONTAINER_NAME} \
+			psql \
+				--username ${POSTGRES_USER} \
+				--dbname ${POSTGRES_DB}
