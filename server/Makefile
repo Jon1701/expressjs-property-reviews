@@ -29,7 +29,7 @@ install-node-server-dependencies:
 create-node-server-folders:
 	@echo "Creating server folders..."
 	@mkdir -p \
-		dist/
+		${SERVER_BUILD_FOLDER}/
 	@echo "Done creating server folders"
 
 # Starts the node development server with auto-compilation.
