@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Jon1701/property-reviews/issues"
   },
-  "homepage": "https://github.com/Jon1701/property-reviews#readme"
+  "homepage": "https://github.com/Jon1701/property-reviews#readme",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
 }
