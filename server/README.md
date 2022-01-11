@@ -14,6 +14,7 @@ Set up, and export the following environment variables:
 | `POSTGRES_PORT` | Database server port |
 | `POSTGRES_USER` | Postgres username |
 | `POSTGRES_PASSWORD` | Postgres password |
+| `NODE_SERVER_PORT` | Port on which the `node` server will accepts connections |
 
 ## Commands
 
