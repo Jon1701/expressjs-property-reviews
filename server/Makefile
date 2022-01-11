@@ -35,7 +35,8 @@ create-node-server-folders:
 # Starts the node development server with auto-compilation.
 start-node-dev-server:
 	@echo "Starting node development server..."
-	@${NODE_MODULES_BIN_FOLDER}/tsc-watch \
+	PORT=${NODE_SERVER_PORT} \
+	${NODE_MODULES_BIN_FOLDER}/tsc-watch \
 		--onSuccess "node ./${SERVER_BUILD_FOLDER}/app.js" \
 		--onFailure "echo Compilation failed!" \
 		--noClear
