@@ -1,3 +1,7 @@
+NODE_MODULES_FOLDER=node_modules
+NODE_MODULES_BIN_FOLDER=${NODE_MODULES_FOLDER}/.bin
+SERVER_BUILD_FOLDER=dist
+
 # Start docker services.
 start-services:
 	@echo "Starting the database service..."
@@ -27,6 +31,14 @@ create-node-server-folders:
 	@mkdir -p \
 		dist/
 	@echo "Done creating server folders"
+
+# Starts the node development server with auto-compilation.
+start-node-dev-server:
+	@echo "Starting node development server..."
+	@${NODE_MODULES_BIN_FOLDER}/tsc-watch \
+		--onSuccess "node ./${SERVER_BUILD_FOLDER}/app.js" \
+		--onFailure "echo Compilation failed!" \
+		--noClear
 
 # Opens an interactive psql shell.
 psql:
