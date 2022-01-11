@@ -23,4 +23,5 @@ The following `make` commands are available:
 - `make stop-services` to stop all Docker services
 - `make install-node-server-dependencies` installs `npm` dependencies
 - `make create-node-server-folders` to create folders needed by the server
+- `make start-node-dev-server` to start the `node` development server
 - `make psql` to open Postgresql Shell
