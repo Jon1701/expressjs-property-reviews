@@ -15,6 +15,12 @@ stop-services:
 	@docker-compose down
 	@echo "Done stopping services"
 
+# Installs node server dependencies.
+install-node-server-dependencies:
+	@echo "Installing node server dependencies..."
+	@npm ci
+	@echo "Done installing node server dependencies"
+
 # Opens an interactive psql shell.
 psql:
 	@docker exec \
