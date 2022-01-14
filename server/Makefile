@@ -19,6 +19,12 @@ stop-services:
 	@docker-compose down
 	@echo "Done stopping services"
 
+# Wait for services to start.
+wait-services-start:
+	@echo "Waiting for services..."
+	@sleep 1
+	@echo "Done waiting for services"
+
 # Create database tables.
 create-db-tables:
 	@echo "Creating database tables..."
