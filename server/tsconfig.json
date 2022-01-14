@@ -5,7 +5,12 @@
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@db/*": ["db/*"]
+    }
   },
   "lib": ["es2015"]
 }
