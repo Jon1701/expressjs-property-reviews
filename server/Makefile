@@ -60,6 +60,9 @@ start-node-dev-server:
 		--onFailure "echo Compilation failed!" \
 		--noClear
 
+# Starts all services to begin development.
+start: stop-services start-services wait-services-start create-db-tables install-node-server-dependencies create-node-server-folders start-node-dev-server
+
 # Opens an interactive psql shell.
 psql:
 	@docker exec \
