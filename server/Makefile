@@ -48,3 +48,9 @@ psql:
 			psql \
 				--username ${POSTGRES_USER} \
 				--dbname ${POSTGRES_DB}
+
+# Opens a shell in the database container.
+db-shell:
+	@docker exec \
+		-it ${POSTGRES_DOCKER_CONTAINER_NAME} \
+			bash
