@@ -55,6 +55,11 @@ create-node-server-folders:
 start-node-dev-server:
 	@echo "Starting node development server..."
 	PORT=${NODE_SERVER_PORT} \
+	POSTGRES_USER=${POSTGRES_USER} \
+	POSTGRES_HOST=${POSTGRES_HOST} \
+	POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+	POSTGRES_DB=${POSTGRES_DB} \
+	POSTGRES_PORT=${POSTGRES_PORT} \
 	${NODE_MODULES_BIN_FOLDER}/tsc-watch \
 		--onSuccess "node ./${SERVER_BUILD_FOLDER}/app.js" \
 		--onFailure "echo Compilation failed!" \
