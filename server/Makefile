@@ -19,6 +19,19 @@ stop-services:
 	@docker-compose down
 	@echo "Done stopping services"
 
+# Create database tables.
+create-db-tables:
+	@echo "Creating database tables..."
+	@docker cp ./.db/create-tables.sql ${POSTGRES_DOCKER_CONTAINER_NAME}:/tmp/create-tables.sql
+	@docker exec -t ${POSTGRES_DOCKER_CONTAINER_NAME} \
+		psql \
+			--dbname ${POSTGRES_DB} \
+			--username ${POSTGRES_USER} \
+			--file /tmp/create-tables.sql
+	@docker exec -t ${POSTGRES_DOCKER_CONTAINER_NAME} \
+		rm /tmp/create-tables.sql
+	@echo "Done creating database tables"
+
 # Installs node server dependencies.
 install-node-server-dependencies:
 	@echo "Installing node server dependencies..."
