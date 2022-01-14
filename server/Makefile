@@ -47,6 +47,7 @@ install-node-server-dependencies:
 # Creates folders needed for the node server.
 create-node-server-folders:
 	@echo "Creating server folders..."
+	@rm -rf ${SERVER_BUILD_FOLDER}/
 	@mkdir -p \
 		${SERVER_BUILD_FOLDER}/
 	@echo "Done creating server folders"
