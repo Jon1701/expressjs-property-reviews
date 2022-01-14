@@ -1,3 +1,6 @@
+
+DROP TABLE IF EXISTS developers;
+
 CREATE TABLE developers (
   id                  SERIAL
                       PRIMARY KEY
