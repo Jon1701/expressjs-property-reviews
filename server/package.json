@@ -15,7 +15,7 @@
   "homepage": "https://github.com/Jon1701/property-reviews#readme",
   "_moduleAliases": {
     "@controllers": "dist/controllers",
-    "@db": "dist/db"
+    "@util": "dist/util"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
