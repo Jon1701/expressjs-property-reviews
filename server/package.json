@@ -16,6 +16,7 @@
   "_moduleAliases": {
     "@controllers": "dist/controllers",
     "@db": "dist/db",
+    "@models": "dist/models",
     "@util": "dist/util"
   },
   "devDependencies": {
