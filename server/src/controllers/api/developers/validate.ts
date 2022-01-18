@@ -128,6 +128,22 @@ const validatePostObject = (developer: Developer): ValidationResults => {
     );
   }
 
+  // Check if `address.state` is provided.
+  if (!isString(address?.state)) {
+    results.address.state = strFieldValueRequired;
+  }
+
+  // Check if `address.state` has required length.
+  if (
+    isString(address?.state) &&
+    !isStringBetweenLength(address.state, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.address.state = strMustBeBetweenNumCharactersLong(
+      STR_MIN_LEN,
+      STR_MAX_LEN
+    );
+  }
+
   // Check if `address.postalCode` is provided.
   if (!isString(address?.postalCode)) {
     results.address.postalCode = strFieldValueRequired;
