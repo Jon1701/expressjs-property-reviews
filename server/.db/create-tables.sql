@@ -1,13 +1,15 @@
 
 DROP TABLE IF EXISTS developers;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE developers (
   id                  SERIAL
                       PRIMARY KEY
                       NOT NULL,
-  id_hash             TEXT
+  id_hash             UUID
                       NOT NULL
-                      DEFAULT concat('developer_', REPLACE(gen_random_uuid()::text, '-', '')),
+                      DEFAULT uuid_generate_v4(),
   name                VARCHAR(255)
                       NOT NULL,
   address_line1       VARCHAR(255)
