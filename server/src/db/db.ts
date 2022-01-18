@@ -1,4 +1,4 @@
-import { Pool, Result } from "pg";
+import { Pool, Result as TransactionResult } from "pg";
 
 // Connection information.
 const pool = new Pool({
@@ -9,23 +9,17 @@ const pool = new Pool({
   host: process.env.POSTGRES_HOST,
 });
 
-// Transaction result.
-interface InterfaceTransactionResult {
-  result: Result | null;
-  error: Result | null;
-}
-
 /**
  * Executes a transaction.
  *
  * @param query SQL query.
  * @param argsArray Array of arguments.
- * @returns {Promise<InterfaceTransactionResult>} Transaction result.
+ * @returns {Promise<TransactionResult>} Transaction result.
  */
 const executeTransaction = async (
   query: string,
   argsArray
-): Promise<InterfaceTransactionResult> => {
+): Promise<TransactionResult> => {
   const client = await pool.connect();
 
   try {
@@ -33,7 +27,7 @@ const executeTransaction = async (
     const result = await client.query(query, argsArray);
     await client.query("COMMIT");
 
-    const payload: InterfaceTransactionResult = {
+    const payload: TransactionResult = {
       result,
       error: null,
     };
@@ -42,7 +36,7 @@ const executeTransaction = async (
   } catch (e) {
     const result = await client.query("ROLLBACK");
 
-    const payload: InterfaceTransactionResult = {
+    const payload: TransactionResult = {
       result: null,
       error: result,
     };
@@ -53,4 +47,4 @@ const executeTransaction = async (
   }
 };
 
-export { executeTransaction, InterfaceTransactionResult };
+export { executeTransaction, TransactionResult };
