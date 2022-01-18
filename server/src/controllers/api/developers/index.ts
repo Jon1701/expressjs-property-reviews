@@ -1,8 +1,28 @@
 import { Request, Response } from "express";
 
+import {
+  createDeveloper,
+  InterfaceCreateDeveloperResult,
+} from "@db/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
-import { validatePostObject } from "./validate";
+import { validatePostObject, InterfaceValidationResults } from "./validate";
+
+interface InterfacePostDeveloperAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+interface InterfacePostDeveloper {
+  id?: string;
+  name: string;
+  address: InterfacePostDeveloperAddress;
+  website?: string;
+}
 
 /**
  * Route handler for POST /api/developers.
@@ -10,15 +30,40 @@ import { validatePostObject } from "./validate";
  * @param req Request object.
  * @param res Response object.
  */
-const postDeveloper = (req: Request, res: Response): void => {
-  // Return 400 Bad Request if request body fails validation.
-  const results = validatePostObject(req.body);
+const postDeveloper = async (req: Request, res: Response): Promise<void> => {
+  // Validate request body.
+  const results: InterfaceValidationResults = validatePostObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;
   }
 
-  res.status(200).send("ok");
+  // Destructure request body.
+  const { name, address, website } = req.body;
+  const { line1, line2, city, state, postalCode, country } = address;
+
+  // Persist into database.
+  const result = await createDeveloper(
+    name,
+    line1,
+    line2,
+    city,
+    state,
+    postalCode,
+    country,
+    website
+  );
+
+  // If result was not persisted, return 500 Internal Server Error.
+  if (result === null) {
+    res.status(500).send();
+  }
+
+  // Return Location header with ID of the created object.
+  res
+    .status(201)
+    .location("/api/developers/" + result.id_hash)
+    .send();
 };
 
-export { postDeveloper };
+export { postDeveloper, InterfacePostDeveloper };
