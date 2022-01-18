@@ -4,6 +4,7 @@ import isObject from "@util/boolean/isObject";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 import isString from "@util/boolean/isString";
 import isStringBetweenLength from "@util/boolean/isStringBetweenLength";
+import isValidPostalCode from "@util/boolean/isValidPostalCode";
 
 interface ValidationResultsAddress {
   line1?: string;
@@ -44,6 +45,9 @@ const strMustHaveLength = (requiredLength: number): string =>
 
 // String which indicates that a field value is required.
 const strFieldValueRequired = "field value required";
+
+// String which indicates the postal code is invalid.
+const strInvalidPostalCode = "invalid postal code";
 
 // Minimum number of characters for string messages.
 const STR_MIN_LEN = 1;
@@ -132,9 +136,9 @@ const validatePostObject = (developer: Developer): ValidationResults => {
   // Check if `address.postalCode` has required length.
   if (
     isString(address?.postalCode) &&
-    address.postalCode.length !== STR_POSTALCODE_LEN
+    !isValidPostalCode(address.postalCode.toUpperCase())
   ) {
-    results.address.postalCode = strMustHaveLength(STR_POSTALCODE_LEN);
+    results.address.postalCode = strInvalidPostalCode;
   }
 
   // Check if `address.country` is provided.
