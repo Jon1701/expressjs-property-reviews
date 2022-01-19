@@ -1,9 +1,13 @@
 import "module-alias/register";
 import express from "express";
 
+import { db } from "@db/db";
 import { postDeveloper } from "@controllers/api/developers";
 
 const app: express.Application = express();
+
+// Connect to the database.
+db.authenticate().catch((err) => console.log("Error: " + err));
 
 // Middleware.
 app.use(express.json());
