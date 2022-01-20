@@ -4,7 +4,11 @@ import Sequelize from "sequelize";
 import { Developer } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
-import { validatePostObject, ValidationResults } from "./validate";
+import {
+  validatePostObject,
+  validatePatchObject,
+  ValidationResults,
+} from "./validate";
 
 interface AddressRequestBody {
   line1?: string;
@@ -64,4 +68,45 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
   res.status(201).location(`/api/developer/${id}`).send();
 };
 
-export { postDeveloper, DeveloperRequestBody };
+/**
+ * Route handler for PATCH /api/developers/:developerID.
+ *
+ * @param req Request object.
+ * @param res Response object.
+ */
+const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
+  // Validate request body.
+  const results: ValidationResults = validatePatchObject(req.body);
+  if (!isObjectEmpty(results)) {
+    res.status(400).json(results);
+    return;
+  }
+
+  try {
+    // Update row.
+    const result = await Developer.update(
+      {
+        name: req?.body?.name,
+        addressLine1: req?.body?.address?.line1,
+        addressLine2: req?.body?.address?.line2,
+        addressCity: req?.body?.address?.city,
+        addressState: req?.body?.address?.state,
+        addressPostalCode: req?.body?.address?.postalCode,
+        addressCountry: req?.body?.address?.country,
+        website: req?.body?.website,
+      },
+      {
+        returning: true,
+        where: {
+          developerID: req.params.developerID,
+        },
+      }
+    );
+
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).send();
+  }
+};
+
+export { postDeveloper, patchDeveloper, DeveloperRequestBody };
