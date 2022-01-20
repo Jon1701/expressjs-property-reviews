@@ -1,4 +1,4 @@
-import { InterfacePostDeveloper } from "@controllers/api/developers";
+import { DeveloperRequestBody } from "@controllers/api/developers";
 
 import isObject from "@util/boolean/isObject";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
@@ -6,7 +6,7 @@ import isString from "@util/boolean/isString";
 import isStringBetweenLength from "@util/boolean/isStringBetweenLength";
 import isValidPostalCode from "@util/boolean/isValidPostalCode";
 
-interface InterfaceValidationResultsAddress {
+interface ValidationResultsAddress {
   line1?: string;
   line2?: string;
   city?: string;
@@ -15,10 +15,10 @@ interface InterfaceValidationResultsAddress {
   country?: string;
 }
 
-interface InterfaceValidationResults {
+interface ValidationResults {
   id?: string;
   name?: string;
-  address?: InterfaceValidationResultsAddress;
+  address?: ValidationResultsAddress;
   website?: string;
 }
 
@@ -65,9 +65,9 @@ const STR_POSTALCODE_LEN = 6;
  * @returns Validation error messages.
  */
 const validatePostObject = (
-  developer: InterfacePostDeveloper
-): InterfaceValidationResults => {
-  const results: InterfaceValidationResults = {};
+  developer: DeveloperRequestBody
+): ValidationResults => {
+  const results: ValidationResults = {};
 
   // Destructure properties.
   const { name, address, website } = developer;
@@ -194,4 +194,4 @@ const validatePostObject = (
   return results;
 };
 
-export { validatePostObject, InterfaceValidationResults };
+export { validatePostObject, ValidationResults };
