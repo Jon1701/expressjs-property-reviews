@@ -1,26 +1,24 @@
 import { Request, Response } from "express";
+import Sequelize from "sequelize";
 
-import {
-  createDeveloper,
-  InterfaceCreateDeveloperResult,
-} from "@db/developers";
+import { Developer } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
-import { validatePostObject, InterfaceValidationResults } from "./validate";
+import { validatePostObject, ValidationResults } from "./validate";
 
-interface InterfacePostDeveloperAddress {
-  line1: string;
+interface AddressRequestBody {
+  line1?: string;
   line2?: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
 }
 
-interface InterfacePostDeveloper {
+interface DeveloperRequestBody {
   id?: string;
-  name: string;
-  address: InterfacePostDeveloperAddress;
+  name?: string;
+  address?: AddressRequestBody;
   website?: string;
 }
 
@@ -32,38 +30,38 @@ interface InterfacePostDeveloper {
  */
 const postDeveloper = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
-  const results: InterfaceValidationResults = validatePostObject(req.body);
+  const results: ValidationResults = validatePostObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;
   }
 
-  // Destructure request body.
-  const { name, address, website } = req.body;
-  const { line1, line2, city, state, postalCode, country } = address;
+  // Developer ID of the newly created row.
+  let id: string;
 
-  // Persist into database.
-  const result = await createDeveloper(
-    name,
-    line1,
-    line2,
-    city,
-    state,
-    postalCode,
-    country,
-    website
-  );
+  try {
+    // Create and persist row.
+    const result = await Developer.create(
+      {
+        name: req?.body?.name,
+        addressLine1: req?.body?.address?.line1,
+        addressLine2: req?.body?.address?.line2,
+        addressCity: req?.body?.address?.city,
+        addressState: req?.body?.address?.state,
+        addressPostalCode: req?.body?.address?.postalCode,
+        addressCountry: req?.body?.address?.country,
+        website: req?.body?.website,
+      },
+      { returning: true }
+    );
 
-  // If result was not persisted, return 500 Internal Server Error.
-  if (result === null) {
+    id = result.toJSON().developerID;
+  } catch (err) {
     res.status(500).send();
+    return;
   }
 
-  // Return Location header with ID of the created object.
-  res
-    .status(201)
-    .location("/api/developers/" + result.id_hash)
-    .send();
+  res.status(201).location(`/api/developer/${id}`).send();
 };
 
-export { postDeveloper, InterfacePostDeveloper };
+export { postDeveloper, DeveloperRequestBody };
