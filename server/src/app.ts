@@ -2,7 +2,7 @@ import "module-alias/register";
 import express from "express";
 
 import { db } from "@db/db";
-import { postDeveloper } from "@controllers/api/developers";
+import { postDeveloper, patchDeveloper } from "@controllers/api/developers";
 
 const app: express.Application = express();
 
@@ -20,6 +20,7 @@ app.use("/api", apiRouter);
 
 // API Routes.
 apiRouter.post("/developers", postDeveloper);
+apiRouter.patch("/developers/:developerID", patchDeveloper);
 
 // Listen for connections.
 const FALLBACK_PORT = 3000;
