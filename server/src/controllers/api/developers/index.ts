@@ -40,9 +40,6 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  // Developer ID of the newly created row.
-  let id: string;
-
   try {
     // Create and persist row.
     const result = await Developer.create(
@@ -59,13 +56,13 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
       { returning: true }
     );
 
-    id = result.toJSON().developerID;
+    res
+      .status(201)
+      .location(`/api/developers/${result.toJSON().developerID}`)
+      .send();
   } catch (err) {
     res.status(500).send();
-    return;
   }
-
-  res.status(201).location(`/api/developer/${id}`).send();
 };
 
 /**
