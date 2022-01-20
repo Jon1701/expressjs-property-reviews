@@ -24,5 +24,9 @@ CREATE TABLE developers (
   address_country     VARCHAR(255)
                       NOT NULL,
   website             VARCHAR(255),
+  created_at          TIMESTAMPTZ
+                      NOT NULL,
+  updated_at          TIMESTAMPTZ
+                      NOT NULL,
   UNIQUE(id_hash)
 );
