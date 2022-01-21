@@ -28,5 +28,6 @@ The following `make` commands are available:
 - `make create-node-server-folders` to create folders needed by the server
 - `make start-node-dev-server` to start the `node` development server
 - `make start` to start all services, populate database tables, and start the development server
+- `make test` to run tests
 - `make psql` to open Postgresql Shell
 - `make db-shell` to open a shell in the database container
