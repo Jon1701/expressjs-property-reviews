@@ -69,6 +69,12 @@ start-node-dev-server:
 # Starts all services to begin development.
 start: stop-services start-services wait-services-start create-db-tables install-node-server-dependencies create-node-server-folders start-node-dev-server
 
+# Run tests.
+test:
+	@echo "Running tests..."
+	@${NODE_MODULES_BIN_FOLDER}/jest
+	@echo "Done running tests"
+
 # Opens an interactive psql shell.
 psql:
 	@docker exec \
