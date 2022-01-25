@@ -28,7 +28,7 @@ interface Developer {
  * @param req Request object.
  * @param res Response object.
  */
-const postDeveloper = async (req: Request, res: Response): Promise<void> => {
+const postDevelopers = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
   const results: Developer = validatePostObject(req.body);
   if (!isObjectEmpty(results)) {
@@ -67,7 +67,7 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
  * @param req Request object.
  * @param res Response object.
  */
-const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
+const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
   const results: Developer = validatePatchObject(req.body);
   if (!isObjectEmpty(results)) {
@@ -119,4 +119,4 @@ const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { postDeveloper, patchDeveloper, Developer };
+export { postDevelopers, patchDevelopers, Developer };
