@@ -2,7 +2,11 @@ import "module-alias/register";
 import express from "express";
 
 import { db } from "@db/db";
-import { postDevelopers, patchDevelopers } from "@controllers/api/developers";
+import {
+  getDevelopers,
+  postDevelopers,
+  patchDevelopers,
+} from "@controllers/api/developers";
 
 const app: express.Application = express();
 
@@ -19,6 +23,7 @@ const apiRouter: express.Router = express.Router();
 app.use("/api", apiRouter);
 
 // API Routes.
+apiRouter.get("/developers", getDevelopers);
 apiRouter.post("/developers", postDevelopers);
 apiRouter.patch("/developers/:developerID", patchDevelopers);
 
