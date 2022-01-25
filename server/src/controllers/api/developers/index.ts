@@ -23,6 +23,54 @@ interface Developer {
 }
 
 /**
+ * Route handler for GET /api/developers.
+ *
+ * @param req Request object.
+ * @param res Response object.
+ */
+const getDevelopers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Get rows.
+    const rows = await ModelDeveloper.findAll({
+      attributes: [
+        "developerID",
+        "name",
+        "addressLine1",
+        "addressLine2",
+        "addressCity",
+        "addressState",
+        "addressPostalCode",
+        "addressCountry",
+        "website",
+      ],
+    });
+
+    // Restructure rows for the response body.
+    const responseBody = rows.map((item) => {
+      const row = item.get();
+
+      return {
+        id: row.developerID,
+        name: row.name,
+        address: {
+          line1: row.addressLine1,
+          line2: row.addressLine2,
+          city: row.addressCity,
+          state: row.addressState,
+          postalCode: row.addressPostalCode,
+          country: row.addressCountry,
+        },
+        website: row.website,
+      };
+    });
+
+    res.status(200).json(responseBody);
+  } catch (err) {
+    res.status(500).send();
+  }
+};
+
+/**
  * Route handler for POST /api/developers.
  *
  * @param req Request object.
@@ -119,4 +167,4 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { postDevelopers, patchDevelopers, Developer };
+export { getDevelopers, postDevelopers, patchDevelopers, Developer };
