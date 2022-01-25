@@ -174,3 +174,72 @@ describe("validatePostObject", () => {
     });
   });
 });
+
+describe("validatePatchObject", () => {
+  describe("with an empty request body", () => {
+    const reqBody = {};
+
+    it("should return an empty object", () => {
+      const expected = {};
+      const actual = validatePatchObject(reqBody);
+
+      expect(actual).toStrictEqual(expected);
+    });
+  });
+
+  describe("with a populated request body", () => {
+    describe("field values fall within the allowed length", () => {
+      const reqBody = {
+        name: "Hello World",
+        address: {
+          line1: "123 Fake Street",
+          city: "Toronto",
+          state: "Ontario",
+          postalCode: "A1A1A1",
+          country: "Canada",
+        },
+        website: "https://www.example.com",
+      };
+
+      it("should return an empty object", () => {
+        const expected = {};
+        const actual = validatePatchObject(reqBody);
+
+        expect(actual).toStrictEqual(expected);
+      });
+    });
+
+    describe("field values fall outside the allowed length", () => {
+      const reqBody = {
+        name: "1".repeat(300),
+        address: {
+          line1: "1".repeat(300),
+          line2: "1".repeat(300),
+          city: "1".repeat(300),
+          state: "1".repeat(300),
+          postalCode: "1".repeat(300),
+          country: "1".repeat(300),
+        },
+        website: "1".repeat(300),
+      };
+
+      it("should validation results", () => {
+        const expected = {
+          name: strFieldMustBeBetween1And255CharactersLong,
+          address: {
+            line1: strFieldMustBeBetween1And255CharactersLong,
+            line2: strFieldMustBeBetween1And255CharactersLong,
+            city: strFieldMustBeBetween1And255CharactersLong,
+            state: strFieldMustBeBetween1And255CharactersLong,
+            postalCode: strInvalidPostalCode,
+            country: strFieldMustBeBetween1And255CharactersLong,
+          },
+          website: strFieldMustBeBetween1And255CharactersLong,
+        };
+        const actual = validatePatchObject(reqBody);
+
+        expect(actual).toStrictEqual(expected);
+      });
+    });
+  });
+});
