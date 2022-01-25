@@ -232,12 +232,9 @@ const validatePatchObject = (
   // Check if `address.line2` has required length.
   if (
     isString(address?.line2) &&
-    !isStringBetweenLength(address.line2, STR_MIN_LEN, STR_MAX_LEN)
+    !isStringBetweenLength(address.line2, 0, STR_MAX_LEN)
   ) {
-    results.address.line2 = strMustBeBetweenNumCharactersLong(
-      STR_MIN_LEN,
-      STR_MAX_LEN
-    );
+    results.address.line2 = strMustBeBetweenNumCharactersLong(0, STR_MAX_LEN);
   }
 
   // Check if `address.city` has required length.
@@ -282,14 +279,8 @@ const validatePatchObject = (
   }
 
   // Check if `website` has required length.
-  if (
-    isString(website) &&
-    !isStringBetweenLength(website, STR_MIN_LEN, STR_MAX_LEN)
-  ) {
-    results.website = strMustBeBetweenNumCharactersLong(
-      STR_MIN_LEN,
-      STR_MAX_LEN
-    );
+  if (isString(website) && !isStringBetweenLength(website, 0, STR_MAX_LEN)) {
+    results.website = strMustBeBetweenNumCharactersLong(0, STR_MAX_LEN);
   }
 
   // Delete `results.address` if it is an empty object.

@@ -6,6 +6,9 @@ import {
 
 const strFieldValueRequired: string = "field value required";
 
+const strFieldMustBeBetween0And255CharactersLong: string =
+  "must be between 0 and 255 characters long";
+
 const strFieldMustBeBetween1And255CharactersLong: string =
   "must be between 1 and 255 characters long";
 
@@ -228,13 +231,13 @@ describe("validatePatchObject", () => {
           name: strFieldMustBeBetween1And255CharactersLong,
           address: {
             line1: strFieldMustBeBetween1And255CharactersLong,
-            line2: strFieldMustBeBetween1And255CharactersLong,
+            line2: strFieldMustBeBetween0And255CharactersLong,
             city: strFieldMustBeBetween1And255CharactersLong,
             state: strFieldMustBeBetween1And255CharactersLong,
             postalCode: strInvalidPostalCode,
             country: strFieldMustBeBetween1And255CharactersLong,
           },
-          website: strFieldMustBeBetween1And255CharactersLong,
+          website: strFieldMustBeBetween0And255CharactersLong,
         };
         const actual = validatePatchObject(reqBody);
 
