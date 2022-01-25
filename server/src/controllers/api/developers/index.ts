@@ -4,11 +4,7 @@ import Sequelize from "sequelize";
 import { Developer as ModelDeveloper } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
-import {
-  validatePostObject,
-  validatePatchObject,
-  ValidationResults,
-} from "./validate";
+import { validatePostObject, validatePatchObject } from "./validate";
 
 interface Address {
   line1?: string;
@@ -34,7 +30,7 @@ interface Developer {
  */
 const postDeveloper = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
-  const results: ValidationResults = validatePostObject(req.body);
+  const results: Developer = validatePostObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;
@@ -73,7 +69,7 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
  */
 const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
-  const results: ValidationResults = validatePatchObject(req.body);
+  const results: Developer = validatePatchObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;

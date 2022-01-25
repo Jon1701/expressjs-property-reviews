@@ -6,22 +6,6 @@ import isString from "@util/boolean/isString";
 import isStringBetweenLength from "@util/boolean/isStringBetweenLength";
 import isValidPostalCode from "@util/boolean/isValidPostalCode";
 
-interface ValidationResultsAddress {
-  line1?: string;
-  line2?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  country?: string;
-}
-
-interface ValidationResults {
-  id?: string;
-  name?: string;
-  address?: ValidationResultsAddress;
-  website?: string;
-}
-
 /**
  * Builds a string which indicates how many characters a string must be between.
  *
@@ -64,8 +48,8 @@ const STR_POSTALCODE_LEN = 6;
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePostObject = (developer: Developer): ValidationResults => {
-  const results: ValidationResults = {};
+const validatePostObject = (developer: Developer): Developer => {
+  const results: Developer = {};
 
   // Destructure properties.
   const { name, address, website } = developer;
@@ -198,8 +182,8 @@ const validatePostObject = (developer: Developer): ValidationResults => {
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePatchObject = (developer: Developer): ValidationResults => {
-  const results: ValidationResults = {};
+const validatePatchObject = (developer: Developer): Developer => {
+  const results: Developer = {};
 
   // Destructure properties.
   const { name, address, website } = developer;
@@ -287,4 +271,4 @@ const validatePatchObject = (developer: Developer): ValidationResults => {
   return results;
 };
 
-export { validatePostObject, validatePatchObject, ValidationResults };
+export { validatePostObject, validatePatchObject };

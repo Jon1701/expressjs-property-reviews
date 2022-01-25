@@ -1,8 +1,4 @@
-import {
-  validatePostObject,
-  validatePatchObject,
-  ValidationResults,
-} from "../validate";
+import { validatePostObject, validatePatchObject } from "../validate";
 
 const strFieldValueRequired: string = "field value required";
 
