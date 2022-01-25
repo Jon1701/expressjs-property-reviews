@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Sequelize from "sequelize";
 
-import { Developer } from "@models/developers";
+import { Developer as ModelDeveloper } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
 import {
@@ -42,7 +42,7 @@ const postDeveloper = async (req: Request, res: Response): Promise<void> => {
 
   try {
     // Create and persist row.
-    const result = await Developer.create(
+    const result = await ModelDeveloper.create(
       {
         name: req?.body?.name,
         addressLine1: req?.body?.address?.line1,
@@ -81,7 +81,7 @@ const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
 
   try {
     // Update row.
-    const result = await Developer.update(
+    const result = await ModelDeveloper.update(
       {
         name: req?.body?.name,
         addressLine1: req?.body?.address?.line1,
