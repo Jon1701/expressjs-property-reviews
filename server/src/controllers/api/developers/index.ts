@@ -100,7 +100,24 @@ const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
       }
     );
 
-    res.status(204).send();
+    // Get updated row.
+    const retrieved = result[1][0].get();
+
+    // Build response body.
+    const resBody: DeveloperRequestBody = {
+      name: retrieved.name,
+      address: {
+        line1: retrieved.addressLine1,
+        line2: retrieved.addressLine2,
+        city: retrieved.addressCity,
+        state: retrieved.addressState,
+        postalCode: retrieved.addressPostalCode,
+        country: retrieved.addressCountry,
+      },
+      website: retrieved.website,
+    };
+
+    res.status(200).send(resBody);
   } catch (err) {
     res.status(500).send();
   }
