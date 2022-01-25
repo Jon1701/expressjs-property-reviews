@@ -10,7 +10,7 @@ import {
   ValidationResults,
 } from "./validate";
 
-interface AddressRequestBody {
+interface Address {
   line1?: string;
   line2?: string;
   city?: string;
@@ -19,10 +19,10 @@ interface AddressRequestBody {
   country?: string;
 }
 
-interface DeveloperRequestBody {
+interface Developer {
   id?: string;
   name?: string;
-  address?: AddressRequestBody;
+  address?: Address;
   website?: string;
 }
 
@@ -104,7 +104,7 @@ const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
     const retrieved = result[1][0].get();
 
     // Build response body.
-    const resBody: DeveloperRequestBody = {
+    const resBody: Developer = {
       name: retrieved.name,
       address: {
         line1: retrieved.addressLine1,
@@ -123,4 +123,4 @@ const patchDeveloper = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { postDeveloper, patchDeveloper, DeveloperRequestBody };
+export { postDeveloper, patchDeveloper, Developer };

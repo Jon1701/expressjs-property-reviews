@@ -1,4 +1,4 @@
-import { DeveloperRequestBody } from "@controllers/api/developers";
+import { Developer } from "@controllers/api/developers";
 
 import isObject from "@util/boolean/isObject";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
@@ -64,9 +64,7 @@ const STR_POSTALCODE_LEN = 6;
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePostObject = (
-  developer: DeveloperRequestBody
-): ValidationResults => {
+const validatePostObject = (developer: Developer): ValidationResults => {
   const results: ValidationResults = {};
 
   // Destructure properties.
@@ -200,9 +198,7 @@ const validatePostObject = (
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePatchObject = (
-  developer: DeveloperRequestBody
-): ValidationResults => {
+const validatePatchObject = (developer: Developer): ValidationResults => {
   const results: ValidationResults = {};
 
   // Destructure properties.
