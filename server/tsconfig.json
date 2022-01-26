@@ -10,6 +10,7 @@
     "paths": {
       "@controllers/*": ["controllers/*"],
       "@db/*": ["db/*"],
+      "@json/*": ["json/*"],
       "@models/*": ["models/*"],
       "@util/*": ["util/*"]
     }
