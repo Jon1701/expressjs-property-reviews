@@ -4,6 +4,7 @@ import express from "express";
 import { db } from "@db/db";
 import {
   getDevelopers,
+  getSpecificDevelopers,
   postDevelopers,
   patchDevelopers,
 } from "@controllers/api/developers";
@@ -25,6 +26,7 @@ app.use("/api", apiRouter);
 // API Routes.
 apiRouter.get("/developers", getDevelopers);
 apiRouter.post("/developers", postDevelopers);
+apiRouter.get("/developers/:developerID", getSpecificDevelopers);
 apiRouter.patch("/developers/:developerID", patchDevelopers);
 
 // Listen for connections.
