@@ -3,6 +3,7 @@ import Sequelize from "sequelize";
 
 import { Developer as ModelDeveloper } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
+import isValidUUID from "@util/boolean/isValidUUID";
 import {
   mapObjectToModel,
   mapModelToObject,
@@ -52,6 +53,50 @@ const getDevelopers = async (req: Request, res: Response): Promise<void> => {
 
     // Restructure rows for the response body.
     const responseBody = rows.map((item) => mapModelToObject(item.get()));
+
+    res.status(200).json(responseBody);
+  } catch (err) {
+    res.status(500).send();
+  }
+};
+
+/**
+ * Route handler for GET /api/developers/:developerID.
+ *
+ * @param req Request object.
+ * @param res Response object.
+ */
+const getSpecificDevelopers = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  if (!isValidUUID(req.params.developerID)) {
+    res.status(400).send("Invalid Developer ID");
+  }
+  try {
+    // Get row.
+    const row = await ModelDeveloper.findOne({
+      attributes: [
+        "developerID",
+        "name",
+        "addressLine1",
+        "addressLine2",
+        "addressCity",
+        "addressState",
+        "addressPostalCode",
+        "addressCountry",
+        "website",
+      ],
+      where: {
+        developerID: req.params.developerID,
+      },
+    });
+
+    if (row === null) {
+      res.status(404).send("Nothing found");
+    }
+
+    const responseBody = mapModelToObject(row.get());
 
     res.status(200).json(responseBody);
   } catch (err) {
@@ -120,4 +165,10 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { getDevelopers, postDevelopers, patchDevelopers, Developer };
+export {
+  getDevelopers,
+  getSpecificDevelopers,
+  postDevelopers,
+  patchDevelopers,
+  Developer,
+};
