@@ -3,6 +3,11 @@ import Sequelize from "sequelize";
 
 import { Developer as ModelDeveloper } from "@models/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
+import {
+  mapObjectToModel,
+  mapModelToObject,
+  DeveloperModelObject,
+} from "@json/developers";
 
 import { validatePostObject, validatePatchObject } from "./validate";
 
@@ -46,23 +51,7 @@ const getDevelopers = async (req: Request, res: Response): Promise<void> => {
     });
 
     // Restructure rows for the response body.
-    const responseBody = rows.map((item) => {
-      const row = item.get();
-
-      return {
-        id: row.developerID,
-        name: row.name,
-        address: {
-          line1: row.addressLine1,
-          line2: row.addressLine2,
-          city: row.addressCity,
-          state: row.addressState,
-          postalCode: row.addressPostalCode,
-          country: row.addressCountry,
-        },
-        website: row.website,
-      };
-    });
+    const responseBody = rows.map((item) => mapModelToObject(item.get()));
 
     res.status(200).json(responseBody);
   } catch (err) {
@@ -86,19 +75,9 @@ const postDevelopers = async (req: Request, res: Response): Promise<void> => {
 
   try {
     // Create and persist row.
-    const result = await ModelDeveloper.create(
-      {
-        name: req?.body?.name,
-        addressLine1: req?.body?.address?.line1,
-        addressLine2: req?.body?.address?.line2,
-        addressCity: req?.body?.address?.city,
-        addressState: req?.body?.address?.state,
-        addressPostalCode: req?.body?.address?.postalCode,
-        addressCountry: req?.body?.address?.country,
-        website: req?.body?.website,
-      },
-      { returning: true }
-    );
+    const result = await ModelDeveloper.create(mapObjectToModel(req.body), {
+      returning: true,
+    });
 
     res
       .status(201)
@@ -125,41 +104,15 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
 
   try {
     // Update row.
-    const result = await ModelDeveloper.update(
-      {
-        name: req?.body?.name,
-        addressLine1: req?.body?.address?.line1,
-        addressLine2: req?.body?.address?.line2,
-        addressCity: req?.body?.address?.city,
-        addressState: req?.body?.address?.state,
-        addressPostalCode: req?.body?.address?.postalCode,
-        addressCountry: req?.body?.address?.country,
-        website: req?.body?.website,
+    const result = await ModelDeveloper.update(mapObjectToModel(req.body), {
+      returning: true,
+      where: {
+        developerID: req.params.developerID,
       },
-      {
-        returning: true,
-        where: {
-          developerID: req.params.developerID,
-        },
-      }
-    );
-
-    // Get updated row.
-    const retrieved = result[1][0].get();
+    });
 
     // Build response body.
-    const resBody: Developer = {
-      name: retrieved.name,
-      address: {
-        line1: retrieved.addressLine1,
-        line2: retrieved.addressLine2,
-        city: retrieved.addressCity,
-        state: retrieved.addressState,
-        postalCode: retrieved.addressPostalCode,
-        country: retrieved.addressCountry,
-      },
-      website: retrieved.website,
-    };
+    const resBody: Developer = mapModelToObject(result[1][0].get());
 
     res.status(200).send(resBody);
   } catch (err) {
