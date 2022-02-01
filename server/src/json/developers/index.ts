@@ -1,17 +1,7 @@
-import { Developer as DeveloperObject } from "@controllers/api/developers";
-
-// Defines the fields used by the Developer model.
-interface DeveloperModelObject {
-  developerID?: string;
-  name?: string;
-  addressLine1?: string;
-  addressLine2?: string;
-  addressCity?: string;
-  addressState?: string;
-  addressPostalCode?: string;
-  addressCountry?: string;
-  website?: string;
-}
+import {
+  Developer as InterfaceDeveloper,
+  DeveloperModel as InterfaceDeveloperModel,
+} from "@interfaces/developers";
 
 /**
  * Maps a Developer object, usually from a Request Body, into the structure used
@@ -20,7 +10,9 @@ interface DeveloperModelObject {
  * @param obj Developer object (usually from Request Body).
  * @returns Object structure used by the Developer model.
  */
-const mapObjectToModel = (obj: DeveloperObject): DeveloperModelObject => ({
+const mapObjectToModel = (
+  obj: InterfaceDeveloper
+): InterfaceDeveloperModel => ({
   name: obj?.name,
   addressLine1: obj?.address?.line1,
   addressLine2: obj?.address?.line2,
@@ -38,7 +30,9 @@ const mapObjectToModel = (obj: DeveloperObject): DeveloperModelObject => ({
  * @param dmo Developer model object.
  * @returns Object used by Request/Response body or field validation.
  */
-const mapModelToObject = (dmo: DeveloperModelObject): DeveloperObject => ({
+const mapModelToObject = (
+  dmo: InterfaceDeveloperModel
+): InterfaceDeveloper => ({
   id: dmo?.developerID,
   name: dmo?.name,
   address: {
@@ -52,4 +46,4 @@ const mapModelToObject = (dmo: DeveloperModelObject): DeveloperObject => ({
   website: dmo?.website,
 });
 
-export { mapObjectToModel, mapModelToObject, DeveloperModelObject };
+export { mapObjectToModel, mapModelToObject };

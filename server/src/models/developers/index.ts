@@ -1,4 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
+
 import { db } from "@db/db";
 
 // Postgres connection string.

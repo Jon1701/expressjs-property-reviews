@@ -1,4 +1,4 @@
-import { Developer } from "@controllers/api/developers";
+import { Developer as InterfaceDeveloper } from "@interfaces/developers";
 
 import isObject from "@util/boolean/isObject";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
@@ -48,8 +48,10 @@ const STR_POSTALCODE_LEN = 6;
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePostObject = (developer: Developer): Developer => {
-  const results: Developer = {};
+const validatePostObject = (
+  developer: InterfaceDeveloper
+): InterfaceDeveloper => {
+  const results: InterfaceDeveloper = {};
 
   // Destructure properties.
   const { name, address, website } = developer;
@@ -182,8 +184,10 @@ const validatePostObject = (developer: Developer): Developer => {
  * @param developer Request body.
  * @returns Validation error messages.
  */
-const validatePatchObject = (developer: Developer): Developer => {
-  const results: Developer = {};
+const validatePatchObject = (
+  developer: InterfaceDeveloper
+): InterfaceDeveloper => {
+  const results: InterfaceDeveloper = {};
 
   // Destructure properties.
   const { name, address, website } = developer;

@@ -1,32 +1,13 @@
 import { Request, Response } from "express";
 import Sequelize from "sequelize";
 
+import { Developer as InterfaceDeveloper } from "@interfaces/developers";
 import { Developer as ModelDeveloper } from "@models/developers";
+import { mapObjectToModel, mapModelToObject } from "@json/developers";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 import isValidUUID from "@util/boolean/isValidUUID";
-import {
-  mapObjectToModel,
-  mapModelToObject,
-  DeveloperModelObject,
-} from "@json/developers";
 
 import { validatePostObject, validatePatchObject } from "./validate";
-
-interface Address {
-  line1?: string;
-  line2?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  country?: string;
-}
-
-interface Developer {
-  id?: string;
-  name?: string;
-  address?: Address;
-  website?: string;
-}
 
 /**
  * Route handler for GET /api/developers.
@@ -112,7 +93,7 @@ const getSpecificDevelopers = async (
  */
 const postDevelopers = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
-  const results: Developer = validatePostObject(req.body);
+  const results: InterfaceDeveloper = validatePostObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;
@@ -141,7 +122,7 @@ const postDevelopers = async (req: Request, res: Response): Promise<void> => {
  */
 const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
   // Validate request body.
-  const results: Developer = validatePatchObject(req.body);
+  const results: InterfaceDeveloper = validatePatchObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
     return;
@@ -157,7 +138,7 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
     });
 
     // Build response body.
-    const resBody: Developer = mapModelToObject(result[1][0].get());
+    const resBody: InterfaceDeveloper = mapModelToObject(result[1][0].get());
 
     res.status(200).send(resBody);
   } catch (err) {
@@ -170,5 +151,4 @@ export {
   getSpecificDevelopers,
   postDevelopers,
   patchDevelopers,
-  Developer,
 };
