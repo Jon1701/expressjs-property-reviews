@@ -14,4 +14,7 @@ const db = new Sequelize(
   }
 );
 
-export { db };
+// Postgres connection string.
+const connString = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`;
+
+export { db, connString };

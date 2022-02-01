@@ -1,9 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-import { db } from "@db/db";
-
-// Postgres connection string.
-const connString = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`;
+import { db, connString } from "@db/db";
 
 // Maximum allowed length for string fields.
 const MAX_STR_LEN = 255;
