@@ -8,6 +8,7 @@ import {
   postDevelopers,
   patchDevelopers,
 } from "@controllers/api/developers";
+import { postManagement } from "@controllers/api/management";
 
 const app: express.Application = express();
 
@@ -28,6 +29,7 @@ apiRouter.get("/developers", getDevelopers);
 apiRouter.post("/developers", postDevelopers);
 apiRouter.get("/developers/:developerID", getSpecificDevelopers);
 apiRouter.patch("/developers/:developerID", patchDevelopers);
+apiRouter.post("/management", postManagement);
 
 // Listen for connections.
 const FALLBACK_PORT = 3000;
