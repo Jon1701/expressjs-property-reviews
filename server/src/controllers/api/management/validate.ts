@@ -178,4 +178,101 @@ const validatePostObject = (
   return results;
 };
 
-export { validatePostObject };
+/**
+ * Validates the PATCH request body.
+ *
+ * @param managementCompany Request body.
+ * @returns Validation error messages.
+ */
+const validatePatchObject = (
+  managementCompany: InterfaceManagementCompany
+): InterfaceManagementCompany => {
+  const results: InterfaceManagementCompany = {};
+
+  // Destructure properties.
+  const { name, address, website } = managementCompany;
+
+  // Check if `name` field is a string and has allowed length.
+  if (
+    isString(name) &&
+    !isStringBetweenLength(name, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.name = strMustBeBetweenNumCharactersLong(STR_MIN_LEN, STR_MAX_LEN);
+  }
+
+  results.address = {};
+
+  // Check if `address.line1` has required length.
+  if (
+    isString(address?.line1) &&
+    !isStringBetweenLength(address.line1, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.address.line1 = strMustBeBetweenNumCharactersLong(
+      STR_MIN_LEN,
+      STR_MAX_LEN
+    );
+  }
+
+  // Check if `address.line2` has required length.
+  if (
+    isString(address?.line2) &&
+    !isStringBetweenLength(address.line2, 0, STR_MAX_LEN)
+  ) {
+    results.address.line2 = strMustBeBetweenNumCharactersLong(0, STR_MAX_LEN);
+  }
+
+  // Check if `address.city` has required length.
+  if (
+    isString(address?.city) &&
+    !isStringBetweenLength(address.city, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.address.city = strMustBeBetweenNumCharactersLong(
+      STR_MIN_LEN,
+      STR_MAX_LEN
+    );
+  }
+
+  // Check if `address.state` has required length.
+  if (
+    isString(address?.state) &&
+    !isStringBetweenLength(address.state, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.address.state = strMustBeBetweenNumCharactersLong(
+      STR_MIN_LEN,
+      STR_MAX_LEN
+    );
+  }
+
+  // Check if `address.postalCode` has required length.
+  if (
+    isString(address?.postalCode) &&
+    !isValidPostalCode(address.postalCode.toUpperCase())
+  ) {
+    results.address.postalCode = strInvalidPostalCode;
+  }
+
+  // Check if `address.country` has required length.
+  if (
+    isString(address?.country) &&
+    !isStringBetweenLength(address.country, STR_MIN_LEN, STR_MAX_LEN)
+  ) {
+    results.address.country = strMustBeBetweenNumCharactersLong(
+      STR_MIN_LEN,
+      STR_MAX_LEN
+    );
+  }
+
+  // Check if `website` has required length.
+  if (isString(website) && !isStringBetweenLength(website, 0, STR_MAX_LEN)) {
+    results.website = strMustBeBetweenNumCharactersLong(0, STR_MAX_LEN);
+  }
+
+  // Delete `results.address` if it is an empty object.
+  if (isObjectEmpty(results.address)) {
+    delete results.address;
+  }
+
+  return results;
+};
+
+export { validatePostObject, validatePatchObject };
