@@ -1,3 +1,19 @@
+interface Address {
+  line1?: string;
+  line2?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+}
+
+interface ManagementCompany {
+  id?: string;
+  name?: string;
+  address?: Address;
+  website?: string;
+}
+
 // Defines the fields used by the Management Company model.
 interface ManagementCompanyModel {
   managementID?: string;
@@ -11,4 +27,4 @@ interface ManagementCompanyModel {
   website?: string;
 }
 
-export { ManagementCompanyModel };
+export { ManagementCompany, ManagementCompanyModel };
