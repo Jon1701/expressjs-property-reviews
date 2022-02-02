@@ -121,7 +121,11 @@ const postDevelopers = async (req: Request, res: Response): Promise<void> => {
  * @param res Response object.
  */
 const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
-  // Validate request body.
+  if (!isValidUUID(req.params.developerID)) {
+    res.status(400).send("Invalid Developer ID");
+    return;
+  }
+
   const results: InterfaceDeveloper = validatePatchObject(req.body);
   if (!isObjectEmpty(results)) {
     res.status(400).json(results);
@@ -129,7 +133,6 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    // Update row.
     const result = await ModelDeveloper.update(mapObjectToModel(req.body), {
       returning: true,
       where: {
@@ -137,10 +140,7 @@ const patchDevelopers = async (req: Request, res: Response): Promise<void> => {
       },
     });
 
-    // Build response body.
-    const resBody: InterfaceDeveloper = mapModelToObject(result[1][0].get());
-
-    res.status(200).send(resBody);
+    res.status(200).send(mapModelToObject(result[1][0].get()));
   } catch (err) {
     res.status(500).send();
   }
