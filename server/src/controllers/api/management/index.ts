@@ -4,7 +4,7 @@ import { ManagementCompany as ModelManagementCompany } from "@models/management"
 import { mapModelToObject, mapObjectToModel } from "@json/management";
 import isObjectEmpty from "@util/boolean/isObjectEmpty";
 
-import { validatePostObject } from "./validate";
+import { validatePostObject, validatePatchObject } from "./validate";
 
 /**
  * Route handler for POST /api/management.
@@ -35,4 +35,34 @@ const postManagement = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { postManagement };
+/**
+ * Route handler for PATCH /api/management/:managementID.
+ *
+ * @param req Request object.
+ * @param res Response object.
+ */
+const patchManagement = async (req: Request, res: Response): Promise<void> => {
+  const validationResults = validatePatchObject(req.body);
+  if (!isObjectEmpty(validationResults)) {
+    res.status(400).json(validationResults);
+    return;
+  }
+
+  try {
+    const result = await ModelManagementCompany.update(
+      mapObjectToModel(req.body),
+      {
+        where: {
+          managementID: req.params.managementID,
+        },
+        returning: true,
+      }
+    );
+
+    res.status(200).json(mapModelToObject(result[1][0].get()));
+  } catch (err) {
+    res.status(500).send();
+  }
+};
+
+export { postManagement, patchManagement };
