@@ -1,4 +1,10 @@
-# property-reviews
+# Property Reviews
+
+## Status
+
+Inactive
+
+## Project Description
 
 Full Stack application which allows users to review residential properties.
 
